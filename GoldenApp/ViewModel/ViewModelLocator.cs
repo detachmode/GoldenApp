@@ -12,9 +12,11 @@
   See http://www.galasoft.ch/mvvm
 */
 
+using System.ComponentModel;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
+using WpfApp2.ViewModel;
 
 namespace GoldenApp.ViewModel
 {
@@ -26,6 +28,8 @@ namespace GoldenApp.ViewModel
     /// </summary>
     public class ViewModelLocator
     {
+
+        public static ViewModelLocator Instance => new ViewModelLocator();
         /// <summary>
         /// Initializes a new instance of the ViewModelLocator class.
         /// </summary>
@@ -45,6 +49,7 @@ namespace GoldenApp.ViewModel
             ////}
 
             SimpleIoc.Default.Register<MainViewModel>();
+            SimpleIoc.Default.Register<SecondViewModel>();
         }
 
         public MainViewModel Main
@@ -54,7 +59,15 @@ namespace GoldenApp.ViewModel
                 return ServiceLocator.Current.GetInstance<MainViewModel>();
             }
         }
-        
+
+        public SecondViewModel Second
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<SecondViewModel>();
+            }
+        }
+
         public static void Cleanup()
         {
             // TODO Clear the ViewModels

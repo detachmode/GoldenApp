@@ -4,63 +4,61 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GoldenApp"
+       
         mc:Ignorable="d"
         DataContext="{Binding Main, Source={StaticResource Locator}}"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-
-        TextElement.FontWeight="Regular"
-        TextElement.FontSize="13"
-        TextOptions.TextFormattingMode="Ideal"
-        TextOptions.TextRenderingMode="Auto"
         Title="MainWindow" Height="450" Width="425">
-    
-
-        <Window.InputBindings>
-        <KeyBinding Key="N" Modifiers="Control" Command="{Binding Path=ExitApplicationCommand}"/>
-        </Window.InputBindings>
-        <!--<KeyBinding Command="{Binding Path=ExitApplicationCommand}" 
-                Key="O" 
-                Modifiers="Control"/>-->
-
+    <Window.CommandBindings>
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding x:Name="ExitKeyBinding" 
+                    Gesture="{x:Static local:KeyGestures.ExitGesture}" 
+                    Command="{Binding Path=ExitApplicationCommand}" />
+    </Window.InputBindings>
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="FILE">
+                <MenuItem Header="test" Command="{Binding TestCommand}"/>
+                <MenuItem Command="ApplicationCommands.Close"/>
+                <MenuItem Command="ApplicationCommands.New"/>
                 <MenuItem Header="Recent Files">
-                    <MenuItem Header="C:\Users\Dennis\Desktop\LightBulb\MaterialDesignColors.dll"/>
+                    <MenuItem Header="C:\Users\Dennis\Desktop\LightBulb\MaterialDesignColors.dll" />
                 </MenuItem>
                 <MenuItem Header="New" InputGestureText="Ctrl+N" />
+                <MenuItem Header="Show Messagebox" Command="{Binding ShowMessageBox}"/>
                 <MenuItem Header="Save as .. Hallo wor" InputGestureText="Ctrl+N" />
                 <Separator />
-                <MenuItem Header="Exit" Command="{Binding ExitApplicationCommand}" InputGestureText="Ctrl+Q" />
+                <MenuItem Header="Exit" Command="{Binding ExitApplicationCommand}" 
+                          InputGestureText="{Binding Command, RelativeSource={RelativeSource Self} ,Converter={StaticResource GestureConverter}}" />
             </MenuItem>
             <MenuItem Header="HELP">
-                <MenuItem></MenuItem>
+                <MenuItem />
             </MenuItem>
-            
+
         </Menu>
-        
-        
-
-        <StackPanel  DockPanel.Dock="Top">
 
 
+        <StackPanel DockPanel.Dock="Top">
 
-            <Border 
-                BorderThickness="1"
-                BorderBrush="{StaticResource BorderBrush}"
-                Background="{StaticResource ContentBackground}" 
-                Width="100">
+
+            <Border DataContext="{Binding Second, Source={StaticResource Locator}}"
+                    BorderThickness="1"
+                    BorderBrush="{StaticResource BorderBrush}"
+                    Background="{StaticResource ContentBackground}"
+                    Width="100">
                 <StackPanel Margin="12">
                     <TextBlock Text="{Binding AboutText}" />
                     <ListBox>
-                        <Button  Content="Hello" ></Button>
-                     </ListBox>
-                       
+                        <Button Content="Hello" />
+                    </ListBox>
+
                     <Button Content="{Binding BtnText1}" />
                     <Button Content="{Binding BtnText2}" />
                     <Label />
                     <Button Content="About" Command="{Binding AboutApplicationCommand}" />
-                    <Button Content="Exit" Command="{Binding ExitApplicationCommand}" />
+                    <Button Content="Exit"
+                            DataContext="{Binding Main, Source={StaticResource Locator}}"
+                            Command="{Binding ExitApplicationCommand}" />
                 </StackPanel>
             </Border>
         </StackPanel>
